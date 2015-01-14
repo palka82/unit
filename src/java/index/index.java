@@ -63,6 +63,10 @@ public class index extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        if(StringAdapter.isNull(request.getSession().getAttribute("key"))){
+            response.sendRedirect("/unit/auth");
+        }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -85,9 +89,7 @@ public class index extends HttpServlet {
                     if(StringAdapter.NotNull(requestParam.get("logout"))){
                         request.getSession().removeAttribute("key");
                         request.getSession().invalidate();
-                    }
-                    if(StringAdapter.isNull(request.getSession().getAttribute("key"))){
-                       response.sendRedirect("/unit/auth");
+                        response.sendRedirect(request.getContextPath());
                     }
                     Dao dao=Dao.getInstance(con);
                     
@@ -135,6 +137,7 @@ public class index extends HttpServlet {
                     }
                 
                     out.println(result);
+                    out.println(request.getSession().getAttribute("name"));
                     if(con!=null){
                         if(!con.isClosed()){
                            con.close();

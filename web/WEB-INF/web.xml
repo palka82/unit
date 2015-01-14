@@ -15,6 +15,8 @@
     <servlet-mapping>
         <servlet-name>index</servlet-name>
         <url-pattern>/index</url-pattern>
+        <url-pattern>/</url-pattern>
+        <url-pattern>/index.html</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

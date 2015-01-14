@@ -113,7 +113,7 @@ public class User extends ControllerAbstract{
            String login= getRequest().get("login").toString();
            String password= getRequest().get("password").toString();
             
-           String query= "select user_id from users where login='"+login+"' and "
+           String query= "select user_id, name, surname from users where login='"+login+"' and "
                    + "password='"+Security.md5(password)+"';"; 
             QueryExecutor qe=ExecutorFabric.getExecutor(getDao().getConnection(), query, DbTypes.MySQL);
             qe.select();

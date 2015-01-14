@@ -17,12 +17,12 @@ import support.enums.Validators;
  *
  * @author Admin
  */
-@Table (name="events_in")
-public class EventIn {
+@Table (name="talk_shablon_in")
+public class TalkShablonIn {
     @Primary
     @Column(name="id",isNull = false,type = ColumnTypes.INTEGER,isEdit = false)
     public Long id;
     
-    @Column(name="add_date",isNull = false,type = ColumnTypes.DATETIME,isEdit = false)
-    public Date addDate;
+    @Column(name="value",isNull = false,type = ColumnTypes.VARCHAR,isEdit = true)
+    public String value;    
 }
