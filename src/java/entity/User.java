@@ -37,5 +37,11 @@ public class User {
     public String phonePass;
     
     @Column(name="add_date",isNull = false,type = ColumnTypes.DATETIME,isEdit = false)
-    public Date addDate; 
+    public Date addDate;
+    
+    @Column (name="name", isNull = false, type = ColumnTypes.VARCHAR, isEdit = true)
+    public String name;
+    
+    @Column (name="surname", isNull = false, type = ColumnTypes.VARCHAR, isEdit = true)
+    public String surname;
 }

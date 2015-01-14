@@ -43,13 +43,15 @@ public class User {
             FormOptionInterface fo=fr.getFormOption();
             fo.setHorisontal(Boolean.TRUE);
             fo.setButtonName("Добавить");
-            fo.setAction("add");
-            fo.setObject("user");
+            fo.setAction("addUser");
+            fo.setObject("User");
             fo.setNoValidateRights();
             Map<AbsEnt,String> inner= new LinkedHashMap();
             inner.put(fr.textInput("login", "", "Логин"), "");
+            inner.put(fr.textInput("name","", "Имя"), "");
+            inner.put(fr.textInput("surname", "", "Фамилия"), "");
             inner.put(fr.textInput("phonenumber", "", "Номер телефона"), "");
-             inner.put(fr.textInput("phonepass", "", "Пароль к телефону"), "");
+            inner.put(fr.textInput("phonepass", "", "Пароль к телефону"), "");
             AbsEnt se=fr.rightForm(inner, fo);
             
             div= fr.div("float:left;width:100%", null);
@@ -59,7 +61,7 @@ public class User {
             AbsEnt table=fr.table("1", "5", "0");
             List<Row> list= (List<Row>) service.get("userList");
             for(Row user:list){
-                fr.tr(table, user.get("user_id"),user.get("login"),user.get("phonepass"),user.get("phonenumber"));
+                fr.tr(table, user.get("user_id"),user.get("login"),user.get("name")+" "+user.get("surname"),user.get("phonepass"),user.get("phonenumber"));
             }            
             
              div= fr.div("float:left;width:100%", null);

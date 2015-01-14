@@ -51,6 +51,8 @@ public class User extends ControllerAbstract{
             String login=StringAdapter.getString(getRequest().get("login"));
             String phonenumber=StringAdapter.getString(getRequest().get("phonenumber"));
             String phonepass=StringAdapter.getString(getRequest().get("phonepass"));
+            String username=StringAdapter.getString(getRequest().get("name"));
+            String usersurname=StringAdapter.getString(getRequest().get("surname"));
             if(StringAdapter.isNull(login)){
                 addResponce("error", "передайте имя пользователя");
             }else{
@@ -58,7 +60,9 @@ public class User extends ControllerAbstract{
                 String query= "insert into users set login='"+login+"'"
                         + " ,add_date='"+addDate+"'"
                         + ",password='"+Security.md5("0000")+"' , phonenumber='"+phonenumber+"'"
-                        + ",phonepass='"+phonepass+"'";
+                        + ",phonepass='"+phonepass+"'"
+                        + ",name='"+ username +"'"
+                        + ",surname='"+ usersurname + "'";
                 QueryExecutor qe=ExecutorFabric.getExecutor(getDao().getConnection(), query, DbTypes.MySQL);
                 qe.update();
                 if(!qe.getError().isEmpty()){
@@ -92,6 +96,7 @@ public class User extends ControllerAbstract{
                 if(authEd()){
                     Row user=(Row) getResponce().get("user");
                     addSession("key", user.get("user_id"));
+                    addSession("name", user.get("name")+" "+user.get("surname"));
                 }
             }
             setResult(render.User.auth(getRequest(), getResponce()));

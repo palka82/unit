@@ -74,6 +74,7 @@ public class auth extends HttpServlet {
                     
                     if(StringAdapter.NotNull(controller.getSession().get("key"))){
                         request.getSession().setAttribute("key", controller.getSession().get("key"));
+                        request.getSession().setAttribute("name", controller.getSession().get("name"));
                         response.sendRedirect("/unit/index");
                     }else{
                         out.println(controller.getResult());

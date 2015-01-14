@@ -12,6 +12,7 @@ import controller.User;
 import controller.Treatment;
 import controller.PatientsTypes;
 import controller.TalkResult;
+import controller.Doctors;
 import entity.Rights;
 import java.io.File;
 import support.db.Connect;
@@ -83,6 +84,7 @@ public class index extends HttpServlet {
                     result+="<div style='float:left;width:100%;margin-top:50px;'>";
                     if(StringAdapter.NotNull(requestParam.get("logout"))){
                         request.getSession().removeAttribute("key");
+                        request.getSession().invalidate();
                     }
                     if(StringAdapter.isNull(request.getSession().getAttribute("key"))){
                        response.sendRedirect("/unit/auth");
@@ -211,6 +213,14 @@ public class index extends HttpServlet {
         talkresult.setNoValidateRights();
         talkresult.setName("Итог разговора");
         div.addEnt(fr.href(list5, talkresult).setCss("knopka"));
+
+        List<Parameter> list6 = new ArrayList();
+        HrefOptionInterface doctors=fr.getHrefOption();
+        doctors.setObject("Doctors");
+        doctors.setAction("showDoctors");
+        doctors.setNoValidateRights();
+        doctors.setName("Специальность врача");
+        div.addEnt(fr.href(list6, doctors).setCss("knopka"));
 
         List<Parameter> endlist = new ArrayList();
         list2.add(new Parameter("logout", "logout"));
