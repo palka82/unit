@@ -253,16 +253,16 @@ public class index extends HttpServlet {
         tc.compare();
         log.add("<b>Удаление таблиц</b>");
         log.addAll(showTableStructure(tc.getTableToDrop()));
-        Creator.createTables(con, DbTypes.MySQL, tc.getTableToDrop());
+        Creator.dropTables(con, DbTypes.MySQL, tc.getTableToDrop());
         log.add("<b>Добавление таблиц</b>");
         log.addAll(showTableStructure(tc.getTableToCreate()));
         Creator.createTables(con, DbTypes.MySQL, tc.getTableToCreate());
         log.add("<b>Удаление столбцов таблиц</b>");
         log.addAll(showTableStructure(tc.getTableToDropColumn()));
-        Creator.dropColumnInTables(con, DbTypes.MySQL, tc.getTableToCreate());
+        Creator.dropColumnInTables(con, DbTypes.MySQL, tc.getTableToDropColumn());
         log.add("<b>Добавление столбцов таблиц</b>");
         log.addAll(showTableStructure(tc.getTableAddColumn()));
-        Creator.addColumnInTables(con, DbTypes.MySQL, tc.getTableToCreate());
+        Creator.addColumnInTables(con, DbTypes.MySQL, tc.getTableAddColumn());
     }
 
     private List<String> showTableStructure(List<support.db.Table> request) throws Exception {
