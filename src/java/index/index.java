@@ -43,7 +43,7 @@ import support.db.Dao;
 import support.db.Persistence;
 import support.db.TableComparator;
 import support.enums.DbTypes;
-import support.logic.RightObject;
+import support.logic.RightStack;
 import support.web.AbsEnt;
 import support.web.HrefOptionInterface;
 import support.web.Parameter;
@@ -98,7 +98,7 @@ public class index extends HttpServlet {
                     sysTableToSql(log, con);
                     
                     Persistence persistence = Persistence.getInstance();
-                    RightObject listRights = persistence.createRightsFromJar(index.class);
+                    RightStack listRights = persistence.createRightsFromJar(index.class);
                     for (support.logic.Right jarRight : listRights.getRights()) {
                         entity.Rights right = new entity.Rights();
                         right.object = jarRight.getObject();
@@ -113,7 +113,7 @@ public class index extends HttpServlet {
 
                     ControllerAbstract controller = null;
 
-                    RightObject userRight = listRights;
+                    RightStack userRight = listRights;
 
                     if (StringAdapter.NotNull(wc.getObject(), wc.getAction())) {
                         String realName = "controller." + StringAdapter.ucFirst(wc.getObject());
@@ -140,9 +140,9 @@ public class index extends HttpServlet {
                     }
 
                     out.println(result);
-                    for (String logs : log) {
+/*                    for (String logs : log) {
                         out.println(logs + "</br>");
-                    }
+                    }*/
                     out.println(request.getSession().getAttribute("name"));
                     if (con != null) {
                         if (!con.isClosed()) {
@@ -230,6 +230,14 @@ public class index extends HttpServlet {
         doctors.setNoValidateRights();
         doctors.setName("Специальность врача");
         div.addEnt(fr.href(list6, doctors).setCss("knopka"));
+
+        List<Parameter> list7 = new ArrayList();
+        HrefOptionInterface welcomeshablon = fr.getHrefOption();
+        welcomeshablon.setObject("WelcomeSpeechShablon");
+        welcomeshablon.setAction("showWelcomeSpeechShablon");
+        welcomeshablon.setNoValidateRights();
+        welcomeshablon.setName("Речевые модули приветствия");
+        div.addEnt(fr.href(list7, welcomeshablon).setCss("knopka"));
 
         List<Parameter> endlist = new ArrayList();
         list2.add(new Parameter("logout", "logout"));
