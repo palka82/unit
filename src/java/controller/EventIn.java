@@ -35,7 +35,7 @@ public class EventIn extends ControllerAbstract{
     public void showEventIn() {
         String result = "";
         try {
-            String user_fio = StringAdapter.getString(getSession().get("name"));
+            String user_fio = StringAdapter.getString(getSession().get("key"));
             String phone = StringAdapter.getString(getRequest().get("number"));
             if (StringAdapter.isNull(user_fio)) {
                 addResponce("error", "нет ФИО пользователя");
@@ -43,6 +43,15 @@ public class EventIn extends ControllerAbstract{
             if (StringAdapter.isNull(phone)) {
                 addResponce("error", "нет номера телефона");
             }
+            Dao dao = getDao();
+            entity.PatientsTypes us1 = new entity.PatientsTypes();
+            List<Row> res1 = dao.find(us1);
+            addResponce("patientstypes",res1);
+            //res1.clear();
+            entity.Treatment us2 = new entity.Treatment();
+            List<Row> res2 = dao.find(us2);
+            addResponce("treatments",res2);
+            //res2.clear();
             addResponce("name", user_fio);
             setResult(render.EventIn.showEventIn(getRequest(), getResponce()));
         } catch (Exception e) {

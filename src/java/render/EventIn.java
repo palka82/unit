@@ -68,6 +68,19 @@ public class EventIn {
                 label.setValue(StringAdapter.getString(request.get("number")));
                 base.addEnt(label);
             }
+            AbsEnt label1 = fr.label("", "", "", "");
+            label1.setValue("Тип пациента:");
+            base.addEnt(label1);
+            List<Row> list1 = (List<Row>) service.get("patientstypes");
+            AbsEnt combo1 = fr.combo(fr.createComboMap(list1, "id","name"), null, "patientstypes");
+            base.addEnt(combo1);
+            AbsEnt label2 = fr.label("", "", "", "");
+            label2.setValue("Причина обращения пациента:");
+            base.addEnt(label2);
+            List<Row> list2 = (List<Row>) service.get("treatments");
+            AbsEnt combo2 = fr.combo(fr.createComboMap(list2, "treatment_id","name"), null, "treatments");
+            base.addEnt(combo2);
+            
             result += base.render();
 
         } catch (Exception e) {
