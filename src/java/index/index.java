@@ -133,7 +133,7 @@ public class index extends HttpServlet {
 /*                    for (String logs : log) {
                         out.println(logs + "</br>");
                     }*/
-                    out.println(request.getSession().getAttribute("name"));
+                    //out.println(request.getSession().getAttribute("name"));
                     if (con != null) {
                         if (!con.isClosed()) {
                             con.close();
