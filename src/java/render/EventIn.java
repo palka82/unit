@@ -25,14 +25,13 @@ public class EventIn {
         String result = "";
         try {
             FabricRender fr = FabricRender.getInstance(new Project());
-            AbsEnt base = fr.div("float:left;width:100%", null);
+            AbsEnt base = fr.div("dlg-background", null, "", "");
             
             
-            AbsEnt div = fr.div("float:left;width:100%", null);
-            base.addEnt(div);
-
+            AbsEnt div_content = fr.div("dlg-content", null,"display:block;","");
+            
             if (StringAdapter.NotNull(service.get("error"))) {
-                div.setValue(service.get("error"));
+                div_content.setValue(service.get("error"));
             }
 
             /*FormOptionInterface fo = fr.getFormOption();
@@ -61,39 +60,39 @@ public class EventIn {
             if (StringAdapter.NotNull(StringAdapter.getString(service.get("name")))) {
                 AbsEnt label = fr.label("", "", "", "");
                 label.setValue(StringAdapter.getString(service.get("name")));
-                base.addEnt(label);
+                div_content.addEnt(label);
             }
             if (StringAdapter.NotNull(StringAdapter.getString(request.get("number")))) {
                 AbsEnt label = fr.label("", "", "", "");
                 label.setValue(StringAdapter.getString(request.get("number")));
-                base.addEnt(label);
+                div_content.addEnt(label);
             }
-            AbsEnt label1 = fr.label("", "", "", "");
+            AbsEnt label1 = fr.label("123", "", "", "");
             label1.setValue("Тип пациента:");
-            base.addEnt(label1);
+            div_content.addEnt(label1);
             List<Row> list1 = (List<Row>) service.get("patientstypes");
             AbsEnt combo1 = fr.combo(fr.createComboMap(list1, "id","name"), null, "patientstypes");
-            base.addEnt(combo1);
+            div_content.addEnt(combo1);
             AbsEnt label2 = fr.label("", "", "", "");
             label2.setValue("Причина обращения пациента:");
-            base.addEnt(label2);
+            div_content.addEnt(label2);
             List<Row> list2 = (List<Row>) service.get("treatments");
             AbsEnt combo2 = fr.combo(fr.createComboMap(list2, "treatment_id","name"), null, "treatments");
-            base.addEnt(combo2);
+            div_content.addEnt(combo2);
             
             AbsEnt label3 = fr.label("", "", "", "");
             label3.setValue("Итог разговора:");
-            base.addEnt(label3);
+            div_content.addEnt(label3);
             List<Row> list3 = (List<Row>) service.get("talkresult");
             AbsEnt combo3 = fr.combo(fr.createComboMap(list3, "id","name"), null, "talkresult");
-            base.addEnt(combo3);
+            div_content.addEnt(combo3);
 
             AbsEnt label4 = fr.label("", "", "", "");
             label4.setValue("Нужный врач:");
-            base.addEnt(label4);
+            div_content.addEnt(label4);
             List<Row> list4 = (List<Row>) service.get("doctors");
             AbsEnt combo4 = fr.combo(fr.createComboMap(list4, "id","name"), null, "doctors");
-            base.addEnt(combo4);
+            div_content.addEnt(combo4);
 
             result += base.render();
 
