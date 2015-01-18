@@ -91,7 +91,7 @@ public class EventIn {
             AbsEnt label4 = fr.label("", "", "", "");
             label4.setValue("Нужный врач:");
             base.addEnt(label4);
-            List<Row> list4 = (List<Row>) service.get("doxtors");
+            List<Row> list4 = (List<Row>) service.get("doctors");
             AbsEnt combo4 = fr.combo(fr.createComboMap(list4, "id","name"), null, "doctors");
             base.addEnt(combo4);
 

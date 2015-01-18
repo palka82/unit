@@ -56,7 +56,7 @@ public class EventIn extends ControllerAbstract{
             List<Row> res3 = dao.find(us3);
             addResponce("talkresult",res3);
 
-            entity.TalkResult us4 = new entity.TalkResult();
+            entity.Doctors us4 = new entity.Doctors();
             List<Row> res4 = dao.find(us4);
             addResponce("doctors",res4);
             //res2.clear();
