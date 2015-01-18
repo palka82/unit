@@ -51,6 +51,14 @@ public class EventIn extends ControllerAbstract{
             entity.Treatment us2 = new entity.Treatment();
             List<Row> res2 = dao.find(us2);
             addResponce("treatments",res2);
+
+            entity.TalkResult us3 = new entity.TalkResult();
+            List<Row> res3 = dao.find(us3);
+            addResponce("talkresult",res3);
+
+            entity.TalkResult us4 = new entity.TalkResult();
+            List<Row> res4 = dao.find(us4);
+            addResponce("doctors",res4);
             //res2.clear();
             addResponce("name", user_fio);
             setResult(render.EventIn.showEventIn(getRequest(), getResponce()));

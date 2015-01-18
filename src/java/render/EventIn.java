@@ -81,6 +81,20 @@ public class EventIn {
             AbsEnt combo2 = fr.combo(fr.createComboMap(list2, "treatment_id","name"), null, "treatments");
             base.addEnt(combo2);
             
+            AbsEnt label3 = fr.label("", "", "", "");
+            label3.setValue("Итог разговора:");
+            base.addEnt(label3);
+            List<Row> list3 = (List<Row>) service.get("talkresult");
+            AbsEnt combo3 = fr.combo(fr.createComboMap(list3, "id","name"), null, "talkresult");
+            base.addEnt(combo3);
+
+            AbsEnt label4 = fr.label("", "", "", "");
+            label4.setValue("Нужный врач:");
+            base.addEnt(label4);
+            List<Row> list4 = (List<Row>) service.get("doxtors");
+            AbsEnt combo4 = fr.combo(fr.createComboMap(list4, "id","name"), null, "doctors");
+            base.addEnt(combo4);
+
             result += base.render();
 
         } catch (Exception e) {
