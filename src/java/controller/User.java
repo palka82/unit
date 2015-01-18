@@ -36,6 +36,38 @@ public class User extends ControllerAbstract{
         try {
             entity.User us = new entity.User();            
             Dao dao=getDao();
+            
+            if (StringAdapter.NotNull(getRequest().get("spec"))) {
+                if (StringAdapter.NotNull(getRequest().get("user_id"))) {
+                    entity.User user = new entity.User();
+                    user.userId = Long.valueOf(StringAdapter.getString(getRequest().get("user_id")));
+                    List<Object> users = dao.findByPrimary(user);
+                    if (users.isEmpty()) {
+                        addResponce("error", "Не существует пользователя с данными Id");
+                    } else {
+                        user=(entity.User) users.get(0);
+                        packages.userRights.entity.Role role = new packages.userRights.entity.Role();
+                        String roleId=StringAdapter.getString(getRequest().get("role_id"));
+                        if(StringAdapter.NotNull(roleId)){
+                            role.roleId = Long.valueOf(roleId);
+                            if (dao.findByPrimary(role).isEmpty()) {
+                                addResponce("error", "Не существует роли с данными Id");
+                            }else{
+                                user.roleId=Long.valueOf(roleId);
+                            }
+                        }else{
+                            user.roleId=null;
+                        }
+                        dao.update(user);
+                    }
+                } else {
+                    addResponce("error", "не передана роль или пользователь");
+                }
+            }
+            packages.userRights.entity.Role role = new packages.userRights.entity.Role();
+            List<Row> roles = dao.find(role);
+            addResponce("roleList", roles);
+            
             List<Row> res=dao.find(us);
             addResponce("userList",res);
             setResult(render.User.showUsers(getRequest(), getResponce()));
