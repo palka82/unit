@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity;
+package packages.userRights.entity;
 
 import java.util.Date;
 import support.commons.db.Column;
@@ -32,6 +32,12 @@ public class Rights {
     
     @Column(name="action",isNull = false,type = ColumnTypes.VARCHAR,isEdit = true)
     public String action;
+    
+    @Column(name="object_description",isNull = true,type = ColumnTypes.VARCHAR,isEdit = true)
+    public String objectDescription;
+    
+    @Column(name="action_description",isNull = true,type = ColumnTypes.VARCHAR,isEdit = true)
+    public String actionDescription;
      
     @Column(name="add_date",isNull = false,type = ColumnTypes.DATETIME,isEdit = false)
     public Date addDate;

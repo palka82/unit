@@ -7,13 +7,11 @@ package index;
 
 import api.ControllerAbstract;
 import controller.Demo;
-import controller.Role;
 import controller.User;
 import controller.Treatment;
 import controller.PatientsTypes;
 import controller.TalkResult;
 import controller.Doctors;
-import entity.Rights;
 import java.io.File;
 import support.db.Connect;
 
@@ -42,7 +40,9 @@ import support.db.Creator;
 import support.db.Dao;
 import support.db.Persistence;
 import support.db.TableComparator;
+import support.db.executor.Row;
 import support.enums.DbTypes;
+import support.logic.Right;
 import support.logic.RightStack;
 import support.web.AbsEnt;
 import support.web.HrefOptionInterface;
@@ -99,25 +99,15 @@ public class index extends HttpServlet {
                     
                     Persistence persistence = Persistence.getInstance();
                     RightStack listRights = persistence.createRightsFromJar(index.class);
-                    for (support.logic.Right jarRight : listRights.getRights()) {
-                        entity.Rights right = new entity.Rights();
-                        right.object = jarRight.getObject();
-                        right.action = jarRight.getAction();
-                        if (dao.findByValues(right).isEmpty()) {
-                            out.println(right.rightId);
-                            right.addDate = new Date();
-                            dao.save(right);
-                            right.addDate = null;
-                        }
-                    }
-
+                        
+                    createRightsFromSystem(listRights, dao);
                     ControllerAbstract controller = null;
 
                     RightStack userRight = listRights;
 
                     if (StringAdapter.NotNull(wc.getObject(), wc.getAction())) {
-                        String realName = "controller." + StringAdapter.ucFirst(wc.getObject());
                         String realMethod = wc.getAction();
+                        String realName =getRealNameFromAllRight(wc.getObject(),wc.getAction(),listRights);
 
                         if (userRight.isRight(realName, realMethod)) {
 
@@ -273,6 +263,60 @@ public class index extends HttpServlet {
         Creator.addColumnInTables(con, DbTypes.MySQL, tc.getTableAddColumn());
     }
 
+       private String createRightsFromSystem(RightStack systemRights, Dao dao) throws Exception {
+        String result = "";
+        for (support.logic.Right jarRight : systemRights.getRights()) {
+            packages.userRights.entity.Rights right = new packages.userRights.entity.Rights();
+            right.object = jarRight.getObject();
+            right.action = jarRight.getAction();
+            List<Row> oneRight = dao.findByValues(right);
+            if (oneRight.isEmpty()) {
+                right.addDate = new Date();
+                right.objectDescription = jarRight.getObjectDescription();
+                right.actionDescription = jarRight.getActionDescription();
+                dao.save(right);
+            } else {
+                Row rowRight = oneRight.get(0);
+                right.rightId = Long.valueOf(StringAdapter.getString(rowRight.get("right_id")));
+                right.addDate = DateAdapter.getDateFromString(rowRight.get("add_date"));
+                right.objectDescription = jarRight.getObjectDescription();
+                right.actionDescription = jarRight.getActionDescription();
+                dao.update(right);
+            }
+        }
+        packages.userRights.entity.Rights right = new packages.userRights.entity.Rights();
+        List<Row> listRight = dao.find(right);
+        for(Row row:listRight){
+            if(!systemRights.isRight(StringAdapter.getString(row.get("object")), StringAdapter.getString(row.get("action")))){
+                packages.userRights.entity.Rights delRight=new packages.userRights.entity.Rights();
+                delRight.object=StringAdapter.getString(row.get("object"));
+                delRight.action=StringAdapter.getString(row.get("action"));
+                dao.deleteByValues(delRight);
+            }
+        }
+        
+                
+        
+        
+        return result;
+    }
+    private String getRealNameFromAllRight(String objectName,String actionName,RightStack allRights) throws Exception {
+        String res = "";
+        for (Right right : allRights.getRights()) {
+            if (right.getAction().equals(actionName)) {
+                String object = right.getObject();
+                String[] splitString = object.split("\\Q.\\E");
+                if (splitString.length > 0) {
+                    if (StringAdapter.ucFirst(objectName).equals(splitString[splitString.length-1])) {
+                        res = object;
+                       break;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    
     private List<String> showTableStructure(List<support.db.Table> request) throws Exception {
         List<String> result = new ArrayList();
         for (support.db.Table sqT : request) {

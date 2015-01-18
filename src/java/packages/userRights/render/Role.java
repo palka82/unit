@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package render;
+package packages.userRights.render;
 
 import api.FabricRender;
 import com.google.gson.Gson;
@@ -19,14 +19,16 @@ import support.web.AbsEnt;
 import support.web.EnumAttrType;
 import support.web.FormOption;
 import support.web.FormOptionInterface;
+import support.web.HrefOptionInterface;
+import support.web.Parameter;
 import support.web.entities.WebEnt;
 
 /**
  *
  * @author Кот
  */
-public class Role {
-
+public class Role {   
+        
     public static String showRoles(Map<String, Object> request, Map<String, Object> service) {
         String result = "";
         try {
@@ -57,13 +59,57 @@ public class Role {
             AbsEnt table = fr.table("1", "5", "0");
             List<Row> list = (List<Row>) service.get("roleList");
             for (Row role : list) {
-                fr.tr(table, role.get("role_id"),getChangeForm(role.get("role_id"),role.get("name")),getDeleteForm(role.get("role_id")));
+                fr.tr(table,getShowConsistForm(role.get("role_id")) ,getChangeForm(role.get("role_id"),role.get("name")),getDeleteForm(role.get("role_id")));
             }
 
             div = fr.div("float:left;width:100%", null);
             base.addEnt(div);
             div.addEnt(table);
 
+            result += base.render();
+
+        } catch (Exception e) {
+            result += StringAdapter.getStackTraceException(e);
+        }
+        return result;
+    }
+    
+    public static String showRolesConsist(Map<String, Object> request, Map<String, Object> service) {
+        String result = "";
+        try {
+            FabricRender fr = FabricRender.getInstance(new Project());
+            AbsEnt base = fr.div("float:left;width:100%", null);
+
+            AbsEnt div = fr.div("float:left;width:100%", null);
+            base.addEnt(div);
+
+            if (StringAdapter.NotNull(service.get("error"))) {
+                div.setValue(service.get("error"));
+                div = fr.div("float:left;width:100%", null);
+                base.addEnt(div);
+            }else{
+                //получить права
+                List<Row> rights =(List<Row>) service.get("rights");
+                Map<String,Object> riMap=fr.createComboMap(rights, "right_id","object_description","action_description");
+
+                //получить права
+                List<Row> roles =(List<Row>) service.get("roles");
+                Map<String,Object> roMap=fr.createComboMap(roles, "role_id","name");
+
+                div = fr.div("float:left;width:100%", null);
+                base.addEnt(div);
+
+                AbsEnt table = fr.table("1", "5", "0");
+                List<Row> links = (List<Row>) service.get("links");
+                Map<String,Object> liMap=fr.createComboMap(links, "right_id","right_id");
+                
+                for (Row ri: rights) {
+                    String rightId=StringAdapter.getString(ri.get("right_id"));
+                    fr.tr(table,ri.get("right_id"),riMap.get(rightId),getCheckBoxForm(service.get("role_id"), ri.get("right_id"), liMap.get(rightId)));
+                }
+
+                div.addEnt(table);
+            }
             result += base.render();
 
         } catch (Exception e) {
@@ -102,4 +148,27 @@ public class Role {
         return se;
     }
 
+    
+    private static AbsEnt getShowConsistForm(Object primariId) throws Exception{
+        FabricRender fr = FabricRender.getInstance(new Project());
+        HrefOptionInterface fo = fr.getHrefOption();
+        fo.setAction("showRolesConsist");
+        fo.setObject("role");
+        fo.setName("Состав роли");
+        fo.setNoValidateRights();
+        List<Parameter> li=new ArrayList();
+        li.add(new Parameter("role_id", primariId));
+        AbsEnt se = fr.href(li, fo);
+        return se;
+    }
+    
+    
+    private static AbsEnt getCheckBoxForm(Object roleId,Object rightId,Object realRight) throws Exception{
+        Project pj=new Project();
+        FabricRender fr = FabricRender.getInstance(new Project());
+        String hrefParams="object=role&&action=showRolesConsist&&spec=change&&role_id="+roleId+"&&right_id="+rightId;
+        AbsEnt se=fr.checkBox("right_id",realRight);
+        se.setJs(se.getJs()+" onclick=\"return location.href =\'"+pj.getBaseLinkPath()+"?"+hrefParams+"\'\"");
+        return se;
+    }
 }
