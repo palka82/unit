@@ -95,6 +95,7 @@ public class EventIn {
             div_content.addEnt(combo4);
 
             result += base.render();
+            result += div_content.render();
 
         } catch (Exception e) {
             result += StringAdapter.getStackTraceException(e);
