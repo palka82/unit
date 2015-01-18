@@ -291,7 +291,7 @@ public class index extends HttpServlet {
                 packages.userRights.entity.Rights delRight=new packages.userRights.entity.Rights();
                 delRight.object=StringAdapter.getString(row.get("object"));
                 delRight.action=StringAdapter.getString(row.get("action"));
-                dao.deleteByValues(delRight);
+                dao.delete(delRight);
             }
         }
         
