@@ -117,8 +117,9 @@ public class index extends HttpServlet {
                     createRightsFromSystem(listRights, dao);
                     ControllerAbstract controller = null;
 
-                    RightStack userRight = getUserRights(wc.getInnerSession().get("key"), dao, log);
-
+                    //RightStack userRight = getUserRights(wc.getInnerSession().get("key"), dao, log);
+                    RightStack userRight = listRights;
+                    
                     if (StringAdapter.NotNull(wc.getObject(), wc.getAction())) {
                         String realMethod = wc.getAction();
                         String realName =getRealNameFromAllRight(wc.getObject(),wc.getAction(),listRights);

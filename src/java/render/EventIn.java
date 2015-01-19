@@ -14,6 +14,7 @@ import support.StringAdapter;
 import support.db.executor.Row;
 import support.web.AbsEnt;
 import support.web.FormOptionInterface;
+import support.web.entities.WebEnt;
 
 /**
  *
@@ -59,12 +60,12 @@ public class EventIn {
             //AbsEnt table = fr.table("tbl_eventin", "", "1", "5", "0", "");
             
             if (StringAdapter.NotNull(StringAdapter.getString(service.get("name")))) {
-                AbsEnt label = fr.label("", "", "", "");
+                AbsEnt label = fr.label("name", "", "", "");
                 label.setValue(StringAdapter.getString(service.get("name")));
                 div_content.addEnt(label);
             }
             if (StringAdapter.NotNull(StringAdapter.getString(request.get("number")))) {
-                AbsEnt label = fr.label("", "", "", "");
+                AbsEnt label = fr.label("number", "", "", "");
                 label.setValue(StringAdapter.getString(request.get("number")));
                 div_content.addEnt(label);
             }
@@ -101,8 +102,14 @@ public class EventIn {
             AbsEnt comment = fr.textArea("comment", null, 4, 50, "Комментарий");
             div_content.addEnt(comment);
             //result += base.render();
+            
+            AbsEnt button = WebEnt.getEnt(WebEnt.Type.BUTTON);
+            button.setValue("Закрыть");
+            button.setJs("onclick=\"hideEventIn();\"");
+            div_content.addEnt(button);
+            
             result += div_content.render();
-            result += "<input type=\"button\" onclick=\"hideEventIn();\" value=\"hide\"/>";
+            
             result += "<script type=\"text/javascript\">showEventIn()</script>";
             
 
