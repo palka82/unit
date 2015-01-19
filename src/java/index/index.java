@@ -117,7 +117,7 @@ public class index extends HttpServlet {
                     createRightsFromSystem(listRights, dao);
                     ControllerAbstract controller = null;
 
-                    RightStack userRight = listRights;
+                    RightStack userRight = getUserRights(wc.getInnerSession().get("key"), dao, log);
 
                     if (StringAdapter.NotNull(wc.getObject(), wc.getAction())) {
                         String realMethod = wc.getAction();
@@ -341,6 +341,27 @@ public class index extends HttpServlet {
             }
         }
         return result;
+    }
+    
+    private RightStack getUserRights(Object userId, Dao dao, List<String> log) throws Exception {
+        packages.userRights.controller.Role role = new packages.userRights.controller.Role();
+        role.setDao(dao);
+
+        if (userId != null) {
+            entity.User us = new entity.User();
+            us.userId = Long.valueOf(StringAdapter.getString(userId));
+            List<Object> usList = dao.findByPrimary(us);
+            if (!usList.isEmpty()) {
+                entity.User userOne = (entity.User) usList.get(0);
+                return role.getRightsByRoleId(userOne.roleId);
+            }else{
+                log.add("Пользователь не нейден");
+            }
+        } else {
+            log.add("не передан пользователь");
+        }
+        return RightStack.getInstance();
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

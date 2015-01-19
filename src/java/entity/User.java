@@ -44,4 +44,7 @@ public class User {
     
     @Column (name="surname", isNull = false, type = ColumnTypes.VARCHAR, isEdit = true)
     public String surname;
+    
+    @Column(name="role_id",isNull = true,type = ColumnTypes.INTEGER,isEdit = true)
+    public Long roleId;
 }

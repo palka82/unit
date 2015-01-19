@@ -19,7 +19,9 @@ import support.db.Dao;
 import support.db.executor.ExecutorFabric;
 import support.db.executor.QueryExecutor;
 import support.db.executor.Row;
+import support.db.select.SelectMysql;
 import support.enums.DbTypes;
+import support.logic.RightStack;
 
 /**
  *
@@ -168,6 +170,26 @@ public class Role extends ControllerAbstract {
         } catch (Exception e) {
             setResult(StringAdapter.getStackTraceException(e));
         }
+    }
+    
+    
+    public RightStack getRightsByRoleId(Object roleId)throws Exception{
+        RightStack rs=RightStack.getInstance();
+        if(StringAdapter.NotNull(roleId)){
+            String query="select rs.object,rs.action from rights rs,role_link_right rl"
+                    + " where rl.right_id=rs.right_id"
+                    + " and role_id='"+StringAdapter.getString(roleId)+"'";
+            QueryExecutor qe=ExecutorFabric.getExecutor(getDao().getConnection(), query, DbTypes.MySQL);
+            qe.select();
+            if(qe.getError().isEmpty()){
+                for(Row rw:qe.getResultList()){
+                    rs.add(StringAdapter.getString(rw.get("object")), StringAdapter.getString(rw.get("action")));
+                }
+            }else{
+                throw new Exception(StringAdapter.getStringFromList(qe.getError()));
+            }
+        }
+        return rs;
     }
 
 }
