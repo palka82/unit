@@ -26,9 +26,8 @@ public class EventIn {
         try {
             FabricRender fr = FabricRender.getInstance(new Project());
             //AbsEnt base = fr.div("dlg-background", null, "", "");
-            
-            
-            AbsEnt div_content = fr.div("dlg-content", null,"display:block;","");
+            result += "<div id='dlg-background'></div>";
+            AbsEnt div_content = fr.div("dlg-content", null,"display:none;","");
             
             if (StringAdapter.NotNull(service.get("error"))) {
                 div_content.setValue(service.get("error"));
@@ -102,8 +101,9 @@ public class EventIn {
             AbsEnt comment = fr.textArea("comment", null, 4, 50, "Комментарий");
             div_content.addEnt(comment);
             //result += base.render();
-            result += "<input type=\"button\" onclick=\"hide();\" value=\"hide\"/>";
             result += div_content.render();
+            result += "<input type=\"button\" onclick=\"hideEventIn();\" value=\"hide\"/>";
+            result += "<script type=\"text/javascript\">showEventIn()</script>";
             
 
         } catch (Exception e) {

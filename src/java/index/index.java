@@ -80,7 +80,7 @@ public class index extends HttpServlet {
             out.println("<title>Servlet index</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<div id='dlg-background'</div>");
+            //out.println("<div id='dlg-background'</div>");
             out.println("<script type=\"text/javascript\">");
             out.println("function showEventIn() {");
             out.println("$(\"#dlg-background\").addClass(\"dlg-background\");");
