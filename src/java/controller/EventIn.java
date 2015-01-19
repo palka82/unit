@@ -35,7 +35,7 @@ public class EventIn extends ControllerAbstract{
     public void showEventIn() {
         String result = "";
         try {
-            String user_fio = StringAdapter.getString(getSession().get("key"));
+            String user_fio = StringAdapter.getString(getSession().get("name"));
             String phone = StringAdapter.getString(getRequest().get("number"));
             if (StringAdapter.isNull(user_fio)) {
                 addResponce("error", "нет ФИО пользователя");

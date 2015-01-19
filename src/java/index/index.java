@@ -80,6 +80,20 @@ public class index extends HttpServlet {
             out.println("<title>Servlet index</title>");
             out.println("</head>");
             out.println("<body>");
+            out.println("<div id='dlg-background'</div>");
+            out.println("<script type=\"text/javascript\">");
+            out.println("function showEventIn() {");
+            out.println("$(\"#dlg-background\").addClass(\"dlg-background\");");
+            out.println("$(\"#dlg-content\").addClass(\"dlg-content\");");
+            out.println("$(\"#dlg-content\").css(\"display\",\"block\");");
+            out.println("}");
+            out.println("function hideEventIn() {");
+            out.println("$(\"#dlg-background\").removeClass(\"dlg-background\");");
+            out.println("$(\"#dlg-content\").removeClass(\"dlg-content\");");
+            out.println("$(\"#dlg-content\").css(\"display\",\"none\");");
+            out.println("}");
+            out.println("</script>");
+            
             try {
                 Connection con = Connect.createConnection(new Sqlset());
                 try {
