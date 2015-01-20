@@ -24,13 +24,13 @@ import support.enums.DbTypes;
  *
  * @author morion
  */
-@Controller
+@Controller(description = "Тип обращения")
 public class Treatment extends ControllerAbstract {
     
     public Treatment() {
     }
 
-    @Right
+    @Right(description = "Показать список")
     public void showTreatments() {
         String result = "";
         try {
@@ -44,7 +44,7 @@ public class Treatment extends ControllerAbstract {
         }
     }
 
-    @Right
+    @Right(description = "Добавить")
     public void add() {
         String result = "";
         try {
@@ -68,7 +68,7 @@ public class Treatment extends ControllerAbstract {
         }
     }
     
-    @Right
+    @Right(description = "Изменить")
     public void change() {
         String result = "";
         try {
@@ -96,7 +96,7 @@ public class Treatment extends ControllerAbstract {
         }
     }
     
-    @Right
+    @Right(description = "Удалить")
     public void delete() {
         String result = "";
         try {

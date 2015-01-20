@@ -25,13 +25,13 @@ import support.enums.DbTypes;
  *
  * @author Admin
  */
-@Controller
+@Controller(description = "Врачи")
 public class Doctors extends ControllerAbstract{
     
     public Doctors() {
     }
     
-    @Right
+    @Right(description = "Список специальностей")
     public void showDoctors() {
         String result = "";
         try {
@@ -45,7 +45,7 @@ public class Doctors extends ControllerAbstract{
         }
     }
     
-    @Right
+    @Right(description = "Добавить")
     public void add() {
         String result = "";
         try {
@@ -69,7 +69,7 @@ public class Doctors extends ControllerAbstract{
         }
     }
     
-    @Right
+    @Right(description = "Изменить")
     public void change() {
         String result = "";
         try {
@@ -97,7 +97,7 @@ public class Doctors extends ControllerAbstract{
         }
     }
 
-    @Right
+    @Right(description = "Удалить")
     public void delete() {
         String result = "";
         try {
