@@ -103,10 +103,16 @@ public class EventIn {
             div_content.addEnt(comment);
             //result += base.render();
             
-            AbsEnt button = WebEnt.getEnt(WebEnt.Type.BUTTON);
-            button.setValue("Закрыть");
-            button.setJs("onclick=\"hideEventIn();\"");
-            div_content.addEnt(button);
+            AbsEnt bt_save = WebEnt.getEnt(WebEnt.Type.BUTTON);
+            bt_save.setValue("Сохранить");
+            bt_save.setJs("class=\"btn btn-success\"");
+            
+            AbsEnt bt_close = WebEnt.getEnt(WebEnt.Type.BUTTON);
+            bt_close.setValue("Закрыть");
+            bt_close.setJs("onclick=\"hideEventIn();\" class=\"btn btn-default\"");
+            
+            div_content.addEnt(bt_save);
+            div_content.addEnt(bt_close);
             
             result += div_content.render();
             
