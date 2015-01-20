@@ -24,13 +24,13 @@ import support.enums.DbTypes;
  *
  * @author Кот
  */
-@Controller
+@Controller(description = "Пользователи")
 public class User extends ControllerAbstract{
 
     public User(){
     }
 
-    @Right
+    @Right(description = "Показать пользователей")
     public void showUsers() {
         String result = "";
         try {
@@ -76,7 +76,7 @@ public class User extends ControllerAbstract{
         }
     }
     
-    @Right
+    @Right(description = "Добавить пользователя")
      public void addUser() {
         String result = "";
         try {
