@@ -76,7 +76,7 @@ public class User extends ControllerAbstract{
         }
     }
     
-    @Right(description = "Добавить пользователя")
+    @Right(description = "Добавить")
      public void addUser() {
         String result = "";
         try {
