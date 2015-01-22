@@ -13,6 +13,7 @@ import settings.Project;
 import support.StringAdapter;
 import support.db.executor.Row;
 import support.web.AbsEnt;
+import support.web.EnumAttrType;
 import support.web.FormOptionInterface;
 import support.web.entities.WebEnt;
 
@@ -105,6 +106,8 @@ public class EventIn {
             
             AbsEnt bt_save = WebEnt.getEnt(WebEnt.Type.BUTTON);
             bt_save.setValue("Сохранить");
+            bt_save.setAttribute(EnumAttrType.style, "wdth:100%");
+            bt_save.setCss("btn btn-success");
             bt_save.setJs("class=\"btn btn-success\"");
             
             AbsEnt bt_close = WebEnt.getEnt(WebEnt.Type.BUTTON);

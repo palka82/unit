@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import api.FabricRender;
+import settings.Dictionary;
 import settings.Project;
 import settings.Sqlset;
 import support.DateAdapter;
@@ -97,6 +98,10 @@ public class index extends HttpServlet {
             try {
                 Connection con = Connect.createConnection(new Sqlset());
                 try {
+                    /**Dictionary dict= Dictionary.getInstance(con, null);
+                    dict.createDictionary(Boolean.TRUE);
+                    dict.get(Dictionary.DictionaryWords.USERNAME);*/
+                    
                     WebClientImpl wc = new WebClientImpl(request, new Project(), new Sqlset());
                     Map<String, Object> requestParam = wc.getInnerRequest();
                     String result = "";
