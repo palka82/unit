@@ -249,6 +249,14 @@ public class index extends HttpServlet {
         welcomeshablon.setName("Речевые модули приветствия");
         div.addEnt(fr.href(list7, welcomeshablon).setCss("knopka"));
 
+        List<Parameter> list8 = new ArrayList();
+        HrefOptionInterface inquirer = fr.getHrefOption();
+        inquirer.setObject("Inquirer");
+        inquirer.setAction("showInquirer");
+        inquirer.setNoValidateRights();
+        inquirer.setName("Опросники");
+        div.addEnt(fr.href(list8, inquirer).setCss("knopka"));
+
         List<Parameter> endlist = new ArrayList();
         list2.add(new Parameter("logout", "logout"));
         HrefOptionInterface logout = fr.getHrefOption();

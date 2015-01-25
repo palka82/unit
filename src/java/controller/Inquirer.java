@@ -66,7 +66,7 @@ public class Inquirer extends ControllerAbstract {
                     addResponce("error", StringAdapter.getStackTraceException(ex));
                 }
             }
-            List<Row> res = getDao().find(new packages.userRights.entity.Role());
+            List<Row> res = getDao().find(new entity.Inquirer());
             addResponce("list", res);
             setResult(render.Inquirer.showInquirer(getRequest(), getResponce()));
         } catch (Exception e) {
