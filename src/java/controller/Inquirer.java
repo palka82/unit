@@ -98,4 +98,31 @@ public class Inquirer extends ControllerAbstract {
         }
     }
     
+    @Right(description = "Изменить")
+    public void change() {
+        String result = "";
+        try {
+            String name = StringAdapter.getString(getRequest().get("name"));
+            String id = StringAdapter.getString(getRequest().get("id"));
+            if (StringAdapter.isNull(name)) {
+                addResponce("error", "передайте название опросника");
+            }else if (StringAdapter.isNull(id)) {
+                addResponce("error", "Передайте id опросника");
+            }else {
+               entity.Inquirer rl = new entity.Inquirer();
+                rl.name = name;
+                rl.id = Long.valueOf(id);
+                try {
+                    getDao().update(rl);
+                } catch (Exception ex) {
+                    addResponce("error", StringAdapter.getStackTraceException(ex));
+                }
+            }
+            List<Row> res = getDao().find(new entity.Inquirer());
+            addResponce("list", res);
+            setResult(render.Inquirer.showInquirer(getRequest(), getResponce()));
+        } catch (Exception e) {
+            setResult(StringAdapter.getStackTraceException(e));
+        }
+    }
 }

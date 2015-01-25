@@ -59,7 +59,7 @@ public class Inquirer {
             AbsEnt table = fr.table("1", "5", "0");
             List<Row> list = (List<Row>) service.get("list");
             for (Row inquirer : list) {
-                //fr.tr(table,getShowConsistForm(role.get("role_id")) ,getChangeForm(role.get("role_id"),role.get("name")),getDeleteForm(role.get("role_id")));
+                fr.tr(table,getChangeForm(inquirer.get("id"),inquirer.get("name")),getDeleteForm(inquirer.get("id")));
             }
 
             div = fr.div("float:left;width:100%", null);
@@ -72,6 +72,35 @@ public class Inquirer {
             result += StringAdapter.getStackTraceException(e);
         }
         return result;
+    }
+
+    private static AbsEnt getDeleteForm(Object primaryId) throws Exception {
+        FabricRender fr = FabricRender.getInstance(new Project());
+        FormOptionInterface fo = fr.getFormOption();
+        fo.setHorisontal(Boolean.TRUE);
+        fo.setButtonName("Удалить");
+        fo.setAction("delete");
+        fo.setObject("Inquirer");
+        fo.setNoValidateRights();
+        Map<AbsEnt, String> inner = new LinkedHashMap();
+        inner.put(fr.hiddenInput("id", primaryId), "");
+        AbsEnt se = fr.rightForm(inner, fo);
+        return se;
+    }
+    
+    private static AbsEnt getChangeForm(Object primaryId,Object currentName) throws Exception {
+        FabricRender fr = FabricRender.getInstance(new Project());
+        FormOptionInterface fo = fr.getFormOption();
+        fo.setHorisontal(Boolean.TRUE);
+        fo.setButtonName("Изменить");
+        fo.setAction("change");
+        fo.setObject("Inquirer");
+        fo.setNoValidateRights();
+        Map<AbsEnt, String> inner = new LinkedHashMap();
+        inner.put(fr.textInput("name", currentName, "Название"), "");
+        inner.put(fr.hiddenInput("id", primaryId), "");
+        AbsEnt se = fr.rightForm(inner, fo);
+        return se;
     }
     
 }
