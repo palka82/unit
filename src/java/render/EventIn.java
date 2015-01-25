@@ -108,7 +108,7 @@ public class EventIn {
             bt_save.setValue("Сохранить");
             bt_save.setAttribute(EnumAttrType.style, "wdth:100%");
             bt_save.setCss("btn btn-success");
-            bt_save.setJs("class=\"btn btn-success\"");
+            //bt_save.setJs("class=\"btn btn-success\"");
             
             AbsEnt bt_close = WebEnt.getEnt(WebEnt.Type.BUTTON);
             bt_close.setValue("Закрыть");
