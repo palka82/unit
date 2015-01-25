@@ -59,7 +59,7 @@ public class Inquirer {
             AbsEnt table = fr.table("1", "5", "0");
             List<Row> list = (List<Row>) service.get("list");
             for (Row inquirer : list) {
-                fr.tr(table,getChangeForm(inquirer.get("id"),inquirer.get("name")),getDeleteForm(inquirer.get("id")));
+                fr.tr(table,getShowConsistForm(inquirer.get("id")), getChangeForm(inquirer.get("id"),inquirer.get("name")),getDeleteForm(inquirer.get("id")));
             }
 
             div = fr.div("float:left;width:100%", null);
@@ -103,4 +103,16 @@ public class Inquirer {
         return se;
     }
     
+    private static AbsEnt getShowConsistForm(Object primaryId) throws Exception{
+        FabricRender fr = FabricRender.getInstance(new Project());
+        HrefOptionInterface fo = fr.getHrefOption();
+        fo.setAction("showInquirerConsist");
+        fo.setObject("Inquirer");
+        fo.setName("Вопросы");
+        fo.setNoValidateRights();
+        List<Parameter> li=new ArrayList();
+        li.add(new Parameter("id", primaryId));
+        AbsEnt se = fr.href(li, fo);
+        return se;
+    }
 }
