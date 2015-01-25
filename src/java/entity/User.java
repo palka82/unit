@@ -8,7 +8,7 @@ package entity;
 import java.util.Date;
 import support.commons.db.*;
 import support.enums.ColumnTypes;
-import support.enums.Validators;
+import support.enums.ValidatorTypes;
 
 
 /**
@@ -30,7 +30,7 @@ public class User {
     public String password;
     
     @Column(name="phonenumber",isNull = false,type = ColumnTypes.VARCHAR,isEdit = true)
-    @Validator({Validators.MAILVALIDATOR,Validators.DATEFORMATVALIDATOR})
+    //@Validator({Validators.MAILVALIDATOR,Validators.DATEFORMATVALIDATOR})
     public String phoneNumber;
     
     @Column(name="phonepass",isNull = true,type = ColumnTypes.VARCHAR,isEdit = true)

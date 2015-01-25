@@ -9,9 +9,9 @@ import java.util.Date;
 import support.commons.db.Column;
 import support.commons.db.Table;
 import support.commons.db.Primary;
-import support.commons.db.Validator;
+import support.commons.Validator;
 import support.enums.ColumnTypes;
-import support.enums.Validators;
+import support.enums.ValidatorTypes;
 
 
 /**
