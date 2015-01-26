@@ -106,8 +106,8 @@ public class Inquirer {
     private static AbsEnt getShowConsistForm(Object primaryId) throws Exception{
         FabricRender fr = FabricRender.getInstance(new Project());
         HrefOptionInterface fo = fr.getHrefOption();
-        fo.setAction("showInquirerConsist");
-        fo.setObject("Inquirer");
+        fo.setAction("showQuestions");
+        fo.setObject("Questions");
         fo.setName("Вопросы");
         fo.setNoValidateRights();
         List<Parameter> li=new ArrayList();

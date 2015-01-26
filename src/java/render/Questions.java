@@ -33,7 +33,10 @@ public class Questions {
             if (StringAdapter.NotNull(service.get("error"))) {
                 div.setValue(service.get("error"));
             }
-
+            
+            List<Row> questions = (List<Row>) service.get("questionsList");
+            
+            
             FormOptionInterface fo = fr.getFormOption();
             fo.setHorisontal(Boolean.TRUE);
             fo.setButtonName("Добавить");
@@ -42,21 +45,24 @@ public class Questions {
             fo.setNoValidateRights();
             Map<AbsEnt, String> inner = new LinkedHashMap();
             inner.put(fr.textInput("name", "", "Название"), "");
+            Map<String, Object> mapQuestions = fr.createComboMap(questions, "id", "value");
+            
+            //inner.put((AbsEnt) mapQuestions,"");
             AbsEnt se = fr.rightForm(inner, fo);
 
             div = fr.div("float:left;width:100%", null);
             base.addEnt(div);
             div.addEnt(se);
 
-            AbsEnt table = fr.table("1", "5", "0");
+            /*AbsEnt table = fr.table("1", "5", "0");
             List<Row> list = (List<Row>) service.get("roleList");
             for (Row role : list) {
-                //fr.tr(table,getShowConsistForm(role.get("role_id")) ,getChangeForm(role.get("role_id"),role.get("name")),getDeleteForm(role.get("role_id")));
+                fr.tr(table,getShowConsistForm(role.get("role_id")) ,getChangeForm(role.get("role_id"),role.get("name")),getDeleteForm(role.get("role_id")));
             }
 
             div = fr.div("float:left;width:100%", null);
             base.addEnt(div);
-            div.addEnt(table);
+            div.addEnt(table);*/
 
             result += base.render();
 

@@ -55,8 +55,9 @@ public class User {
             AbsEnt se = fr.rightForm(inner, fo);
 
             div = fr.div("float:left;width:100%", null);
-            base.addEnt(div);
             div.addEnt(se);
+            base.addEnt(div);
+            
 
             List<Row> roles = (List<Row>) service.get("roleList");
             Map<String, Object> mapRole = fr.createComboMap(roles, "role_id", "name");
@@ -68,10 +69,10 @@ public class User {
             }
 
             div = fr.div("float:left;width:100%", null);
-            base.addEnt(div);
             div.addEnt(table);
+            base.addEnt(div);
+            
 
-            result += base.render();
             Project pj = new Project();
             result += base.render()+("<script type=\"text/javascript\">function sendChange(usId) {"
                     + "var path='"+pj.getBaseLinkPath()+"?object=user&&action=showUsers&&spec=changeRole&&user_id='+usId;"
