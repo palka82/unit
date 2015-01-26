@@ -72,7 +72,6 @@ public class User {
             div.addEnt(table);
             base.addEnt(div);
             
-
             Project pj = new Project();
             result += base.render()+("<script type=\"text/javascript\">function sendChange(usId) {"
                     + "var path='"+pj.getBaseLinkPath()+"?object=user&&action=showUsers&&spec=changeRole&&user_id='+usId;"
