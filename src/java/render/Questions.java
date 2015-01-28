@@ -14,6 +14,8 @@ import support.StringAdapter;
 import support.db.executor.Row;
 import support.web.AbsEnt;
 import support.web.FormOptionInterface;
+import Dental.Patient;
+
 
 /**
  *
@@ -53,7 +55,18 @@ public class Questions {
             div = fr.div("float:left;width:100%", null);
             base.addEnt(div);
             div.addEnt(se);
-
+            
+            Patient test = Dental.PatientManager.getData("89197005302");
+            AbsEnt label1 = fr.label("test1", "", "", "");
+            label1.setValue(test.getSurname());
+            base.addEnt(label1);
+            AbsEnt label2 = fr.label("test2", "", "", "");
+            label2.setValue(test.getName());
+            base.addEnt(label2);
+            AbsEnt label3 = fr.label("test3", "", "", "");
+            label3.setValue(test.getMiddlename());
+            base.addEnt(label3);
+            
             /*AbsEnt table = fr.table("1", "5", "0");
             List<Row> list = (List<Row>) service.get("roleList");
             for (Row role : list) {
