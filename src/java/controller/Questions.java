@@ -32,20 +32,24 @@ public class Questions extends ControllerAbstract{
         List<Row> res = null;
         
         String primaryId = StringAdapter.getString(getRequest().get("id"));
-        String query="select id, value from questions where inquirerId = " + primaryId + "root_id is null";
+        if (StringAdapter.isNull(primaryId)) {
+                addResponce("error", "передайте ID опросника");
+        } else {
+                String query="select id, value from questions where inquirerId = '" + primaryId + "' and root_id is null";
         
-        //setResult(render.Questions.showQuestions(getRequest(), getResponce()));
-        QueryExecutor qe=ExecutorFabric.getExecutor(getDao().getConnection(), query, DbTypes.MySQL);
-        qe.select();
-        if(qe.getError().isEmpty()){
-            for(Row rw:qe.getResultList()){
-                res.add(rw);
-            }
+                //setResult(render.Questions.showQuestions(getRequest(), getResponce()));
+                QueryExecutor qe=ExecutorFabric.getExecutor(getDao().getConnection(), query, DbTypes.MySQL);
+                qe.select();
+                if(qe.getError().isEmpty()){
+                    for(Row rw:qe.getResultList()){
+                        res.add(rw);
+                    }
             
-            addResponce("questionsList",res);
-            setResult(render.Questions.showQuestions(getRequest(), getResponce()));
-        }else{
-                throw new Exception(StringAdapter.getStringFromList(qe.getError()));
+                    addResponce("questionsList",res);
+                    setResult(render.Questions.showQuestions(getRequest(), getResponce()));
+                }else{
+                    throw new Exception(StringAdapter.getStringFromList(qe.getError()));
+                }
         }
     }
     
