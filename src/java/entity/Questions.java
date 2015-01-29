@@ -29,4 +29,7 @@ public class Questions {
     
     @Column(name="comment",isNull = true,type = ColumnTypes.VARCHAR,isEdit = true)
     public String comment;
+    
+    @Column(name="inquirerId",isNull = false,type = ColumnTypes.INTEGER,isEdit = true)
+    public Long inquirerId;
 }

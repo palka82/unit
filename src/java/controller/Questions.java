@@ -31,7 +31,8 @@ public class Questions extends ControllerAbstract{
         String result = "";
         List<Row> res = null;
         
-        String query="select id, value from questions where root_id is null";
+        String primaryId = StringAdapter.getString(getRequest().get("id"));
+        String query="select id, value from questions where inquirerId = " + primaryId + "root_id is null";
         
         //setResult(render.Questions.showQuestions(getRequest(), getResponce()));
         QueryExecutor qe=ExecutorFabric.getExecutor(getDao().getConnection(), query, DbTypes.MySQL);
@@ -49,7 +50,7 @@ public class Questions extends ControllerAbstract{
     }
     
     @Right(description = "Добавить")
-    public void add() {
+    public void addQuestion() {
         String result = "";
         try {
             String name = StringAdapter.getString(getRequest().get("name"));
@@ -59,7 +60,7 @@ public class Questions extends ControllerAbstract{
             } else {
                 entity.Questions rl = new entity.Questions();
                 rl.value = name;
-                rl.rootId = Long.valueOf(primaryId);
+                rl.inquirerId = Long.valueOf(primaryId);
                 try {
                     getDao().save(rl);
                 } catch (Exception ex) {

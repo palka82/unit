@@ -42,7 +42,7 @@ public class Questions {
             FormOptionInterface fo = fr.getFormOption();
             fo.setHorisontal(Boolean.TRUE);
             fo.setButtonName("Добавить");
-            fo.setAction("add");
+            fo.setAction("addQuestion");
             fo.setObject("Questions");
             fo.setNoValidateRights();
             Map<AbsEnt, String> inner = new LinkedHashMap();
