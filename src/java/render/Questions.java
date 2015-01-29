@@ -46,8 +46,9 @@ public class Questions {
             fo.setObject("Questions");
             fo.setNoValidateRights();
             Map<AbsEnt, String> inner = new LinkedHashMap();
-            inner.put(fr.textInput("name", "", "Название"), "");
-            Map<String, Object> mapQuestions = fr.createComboMap(questions, "id", "value");
+            inner.put(fr.textInput("name", "", "Вопрос"), "");
+            inner.put(fr.hiddenInput("primaryId", request.get("id")), "");
+            //Map<String, Object> mapQuestions = fr.createComboMap(questions, "id", "value");
             
             //inner.put((AbsEnt) mapQuestions,"");
             AbsEnt se = fr.rightForm(inner, fo);

@@ -47,4 +47,31 @@ public class Questions extends ControllerAbstract{
                 throw new Exception(StringAdapter.getStringFromList(qe.getError()));
         }
     }
+    
+    @Right(description = "Добавить")
+    public void add() {
+        String result = "";
+        try {
+            String name = StringAdapter.getString(getRequest().get("name"));
+            String primaryId = StringAdapter.getString(getRequest().get("primaryId"));
+            if (StringAdapter.isNull(name)) {
+                addResponce("error", "передайте название роли");
+            } else {
+                entity.Questions rl = new entity.Questions();
+                rl.value = name;
+                rl.rootId = Long.valueOf(primaryId);
+                try {
+                    getDao().save(rl);
+                } catch (Exception ex) {
+                    addResponce("error", StringAdapter.getStackTraceException(ex));
+                }
+            }
+            /*List<Row> res = getDao().find(new packages.userRights.entity.Role());
+            addResponce("roleList", res);
+            setResult(packages.userRights.render.Role.showRoles(getRequest(), getResponce()));*/
+        } catch (Exception e) {
+            setResult(StringAdapter.getStackTraceException(e));
+        }
+    }
+    
 }
