@@ -6,6 +6,7 @@
 package controller;
 
 import api.ControllerAbstract;
+import java.util.ArrayList;
 import java.util.List;
 import support.StringAdapter;
 import support.commons.Controller;
@@ -29,7 +30,7 @@ public class Questions extends ControllerAbstract{
     @Right(description = "Показать вопросы")
     public void showQuestions() throws Exception {
         String result = "";
-        List<Row> res = null;
+        List<Row> res = new ArrayList();
         
         String primaryId = StringAdapter.getString(getRequest().get("id"));
         if (StringAdapter.isNull(primaryId)) {
