@@ -15,6 +15,7 @@ import support.db.executor.Row;
 import support.web.AbsEnt;
 import support.web.FormOptionInterface;
 import Dental.Patient;
+import support.web.entities.WebEnt;
 
 
 /**
@@ -57,6 +58,20 @@ public class Questions {
             base.addEnt(div);
             div.addEnt(se);
             
+            //result += base.render();
+            //String html = "<ul>";
+            AbsEnt li = WebEnt.getEnt(WebEnt.Type.LI);
+                        
+            for (Row q : questions) {
+                //li = fr.
+                //html +="<li>"+q.get("value")+"</li>"+getDeleteForm(q.get("id"));
+                li.setValue(q.get("value"));
+                base.addEnt(li);
+            }
+            
+            result += base.render();
+            //html +="</ul>";
+            //result += html;
             /*Patient test = Dental.PatientManager.getData("89197005302");
             AbsEnt label1 = fr.label("test1", "", "", "");
             label1.setValue(test.getSurname());
@@ -78,12 +93,24 @@ public class Questions {
             base.addEnt(div);
             div.addEnt(table);*/
 
-            result += base.render();
-
         } catch (Exception e) {
             result += StringAdapter.getStackTraceException(e);
         }
         return result;
     }
  
+    private static AbsEnt getDeleteForm(Object primaryId) throws Exception {
+        FabricRender fr = FabricRender.getInstance(new Project());
+        FormOptionInterface fo = fr.getFormOption();
+        fo.setHorisontal(Boolean.TRUE);
+        fo.setButtonName("Удалить");
+        fo.setAction("delete");
+        fo.setObject("Questions");
+        fo.setNoValidateRights();
+        Map<AbsEnt, String> inner = new LinkedHashMap();
+        inner.put(fr.hiddenInput("q_id", primaryId), "");
+        AbsEnt se = fr.rightForm(inner, fo);
+        return se;
+    }
+    
 }
