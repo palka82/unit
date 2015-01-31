@@ -60,12 +60,14 @@ public class Questions {
             
             //result += base.render();
             //String html = "<ul>";
-            AbsEnt li = WebEnt.getEnt(WebEnt.Type.LI);
+            
                         
             for (Row q : questions) {
                 //li = fr.
                 //html +="<li>"+q.get("value")+"</li>"+getDeleteForm(q.get("id"));
-                li.setValue(q.get("value"));
+                AbsEnt li = WebEnt.getEnt(WebEnt.Type.LI);
+                //li.setValue(q.get("value"));
+                li.addEnt(fr.div("",q.get("value")),fr.div("", "").addEnt(getAddForm(q.get("id"))),fr.div("", "").addEnt(getDeleteForm(q.get("id"))));
                 base.addEnt(li);
             }
             
@@ -113,4 +115,17 @@ public class Questions {
         return se;
     }
     
+    private static AbsEnt getAddForm(Object primaryId) throws Exception {
+        FabricRender fr = FabricRender.getInstance(new Project());
+        FormOptionInterface fo = fr.getFormOption();
+        fo.setHorisontal(Boolean.TRUE);
+        fo.setButtonName("Добавить");
+        fo.setAction("addAnswer");
+        fo.setObject("Questions");
+        fo.setNoValidateRights();
+        Map<AbsEnt, String> inner = new LinkedHashMap();
+        inner.put(fr.hiddenInput("q_id", primaryId), "");
+        AbsEnt se = fr.rightForm(inner, fo);
+        return se;
+    }
 }
