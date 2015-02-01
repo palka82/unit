@@ -67,7 +67,7 @@ public class Questions {
                 //html +="<li>"+q.get("value")+"</li>"+getDeleteForm(q.get("id"));
                 AbsEnt li = WebEnt.getEnt(WebEnt.Type.LI);
                 //li.setValue(q.get("value"));
-                li.addEnt(fr.div("",q.get("value")),fr.div("", "").addEnt(getAddForm(q.get("id"))),fr.div("", "").addEnt(getDeleteForm(q.get("id"))));
+                li.addEnt(fr.div("",null).addEnt(fr.div("",q.get("value")),fr.div("", null).addEnt(getAddForm(q.get("id"))),fr.div("", "").addEnt(getDeleteForm(q.get("id")))));
                 base.addEnt(li);
             }
             
