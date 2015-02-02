@@ -77,8 +77,14 @@ public class Questions {
                 buttonAdd.setValue("Сохранить");
                 divAddQ.addEnt(textanswer,buttonAdd);
                 //divAddQ.addEnt(buttonAddQ);
-                //li.setValue(q.get("value"));
-                li.addEnt(fr.div("",null).addEnt(fr.div("",q.get("value")),fr.div("", null).addEnt(getAddForm(q.get("id"))),fr.div("", "").addEnt(getDeleteForm(q.get("id")))),divAddQ);
+                li.setValue(q.get("value"));
+                AbsEnt lidiv = fr.div("lidiv"+q.get("id"),null,"","");
+                //
+                lidiv.addEnt(getAddForm(q.get("id")),getDeleteForm(q.get("id")),divAddQ);
+                
+                //lidiv.setValue(q.get("value"));
+                //li.addEnt(fr.div("",null).addEnt(fr.div("",q.get("value")),fr.div("", null).addEnt(getAddForm(q.get("id"))),fr.div("", "").addEnt(getDeleteForm(q.get("id")))),divAddQ);
+                li.addEnt(lidiv);
                 base.addEnt(li);
             }
             
