@@ -30,7 +30,7 @@ public class Questions extends ControllerAbstract{
     @Right(description = "Показать вопросы")
     public void showQuestions() throws Exception {
         String result = "";
-        List<Row> res = new ArrayList();
+        List<Row> questions = new ArrayList();
         
         String primaryId = StringAdapter.getString(getRequest().get("id"));
         if (StringAdapter.isNull(primaryId)) {
@@ -43,10 +43,10 @@ public class Questions extends ControllerAbstract{
                 qe.select();
                 if(qe.getError().isEmpty()){
                     for(Row rw:qe.getResultList()){
-                        res.add(rw);
+                        questions.add(rw);
                     }
             
-                    addResponce("questionsList",res);
+                    addResponce("questionsList",questions);
                     setResult(render.Questions.showQuestions(getRequest(), getResponce()));
                 }else{
                     throw new Exception(StringAdapter.getStringFromList(qe.getError()));
@@ -61,7 +61,7 @@ public class Questions extends ControllerAbstract{
             String name = StringAdapter.getString(getRequest().get("name"));
             String primaryId = StringAdapter.getString(getRequest().get("primaryId"));
             if (StringAdapter.isNull(name)) {
-                addResponce("error", "передайте название роли");
+                addResponce("error", "передайте вопрос");
             } else {
                 entity.Questions rl = new entity.Questions();
                 rl.value = name;
@@ -80,4 +80,49 @@ public class Questions extends ControllerAbstract{
         }
     }
     
+    @Right(description = "Добавить ответ")
+    public void addAnswer() throws Exception {
+        String result = "";
+        try {
+            String answer = StringAdapter.getString(getRequest().get("answer"));
+            String rootId = StringAdapter.getString(getRequest().get("rootId"));
+            String primaryId = StringAdapter.getString(getRequest().get("primaryId"));
+            if (StringAdapter.isNull(answer)) {
+                addResponce("error", "поле значение не должно быть пустым");
+            } else {
+                entity.Questions rl = new entity.Questions();
+                rl.value = answer;
+                rl.rootId = Long.valueOf(rootId);
+                rl.inquirerId = Long.valueOf(primaryId);
+                try {
+                    getDao().save(rl);
+                } catch (Exception ex) {
+                    addResponce("error", StringAdapter.getStackTraceException(ex));
+                }
+            }
+            /*List<Row> res = getDao().find(new packages.userRights.entity.Role());
+            addResponce("roleList", res);
+            setResult(packages.userRights.render.Role.showRoles(getRequest(), getResponce()));*/
+        } catch (Exception e) {
+            setResult(StringAdapter.getStackTraceException(e));
+        }
+    }
+    
+    public List<Row> getAnswers(Object qId) throws Exception {
+        List<Row> res = new ArrayList();
+        
+        if (StringAdapter.NotNull(qId)) {
+                String query="select id, value from questions where rootId = '" + qId + "'";
+                QueryExecutor qe=ExecutorFabric.getExecutor(getDao().getConnection(), query, DbTypes.MySQL);
+                qe.select();
+                if(qe.getError().isEmpty()){
+                    for(Row rw:qe.getResultList()){
+                        res.add(rw);
+                    }
+                }else{
+                    throw new Exception(StringAdapter.getStringFromList(qe.getError()));
+                }
+        }
+        return res;
+    }
 }

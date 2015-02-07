@@ -15,8 +15,10 @@ import support.db.executor.Row;
 import support.web.AbsEnt;
 import support.web.FormOptionInterface;
 import Dental.Patient;
+import java.util.ArrayList;
 import support.web.EnumAttrType;
 import support.web.entities.WebEnt;
+
 
 
 /**
@@ -64,27 +66,61 @@ public class Questions {
             
                         
             for (Row q : questions) {
-                //li = fr.
-                //html +="<li>"+q.get("value")+"</li>"+getDeleteForm(q.get("id"));
                 AbsEnt li = WebEnt.getEnt(WebEnt.Type.LI);
                 AbsEnt divAddQ = fr.div("divaddq"+q.get("id"), null,"", "");
                 divAddQ.setJs("style=float:left;width:100%;display:none;");
-                AbsEnt textanswer = WebEnt.getEnt(WebEnt.Type.INPUT);
+                /*AbsEnt textanswer = WebEnt.getEnt(WebEnt.Type.INPUT);
                 textanswer.setAttribute(EnumAttrType.type, "text");
                 textanswer.setAttribute(EnumAttrType.size, "");
                 textanswer.setValue("");
                 AbsEnt buttonAdd = WebEnt.getEnt(WebEnt.Type.BUTTON);
                 buttonAdd.setValue("Сохранить");
-                divAddQ.addEnt(textanswer,buttonAdd);
+                buttonAdd.setJs("class=\"btn btn-success\" onclick=\"hideAddForm("+q.get("id")+");\"");
+                divAddQ.addEnt(textanswer,buttonAdd);*/
+                FormOptionInterface formAddAnswer = fr.getFormOption();
+                formAddAnswer.setHorisontal(Boolean.TRUE);
+                formAddAnswer.setButtonName("Добавить");
+                formAddAnswer.setAction("addAnswer");
+                formAddAnswer.setObject("Questions");
+                formAddAnswer.setNoValidateRights();
+                formAddAnswer.setButtonCssClass("btn btn-success");
+                Map<AbsEnt, String> inner1 = new LinkedHashMap();
+                inner1.put(fr.textInput("answer", "", "Значение"), "");
+                inner1.put(fr.hiddenInput("primaryId", request.get("id")), "");
+                inner1.put(fr.hiddenInput("rootId", q.get("id")), "");
+                //Map<String, Object> mapQuestions = fr.createComboMap(questions, "id", "value");
+            
+                //inner.put((AbsEnt) mapQuestions,"");
+                AbsEnt se1 = fr.rightForm(inner1, formAddAnswer);
+                divAddQ.addEnt(se1);
+                
                 //divAddQ.addEnt(buttonAddQ);
-                li.setValue(q.get("value"));
+                //li.setValue(q.get("value"));
                 AbsEnt lidiv = fr.div("lidiv"+q.get("id"),null,"","");
-                //
-                lidiv.addEnt(getAddForm(q.get("id")),getDeleteForm(q.get("id")),divAddQ);
+                lidiv.setJs("style=float:left;width:100%");
+                AbsEnt lidivq = fr.div("lidivq"+q.get("id"),q.get("value"),"","");
+                lidivq.setJs("style=float:left;padding:0;");
+                AbsEnt lidivbuttonadd = fr.div("lidivbuttonadd"+q.get("id"),null,"","");
+                lidivbuttonadd.setJs("style=float:left;padding:0;");
+                lidivbuttonadd.addEnt(getAddForm(q.get("id")));
+                AbsEnt lidivbuttondel = fr.div("lidivbuttondel"+q.get("id"),null,"","");
+                lidivbuttondel.setJs("style=float:left;padding:0;");
+                lidivbuttondel.addEnt(getDeleteForm(q.get("id")));
+                lidiv.addEnt(lidivq,lidivbuttonadd,lidivbuttondel,divAddQ);
                 
                 //lidiv.setValue(q.get("value"));
                 //li.addEnt(fr.div("",null).addEnt(fr.div("",q.get("value")),fr.div("", null).addEnt(getAddForm(q.get("id"))),fr.div("", "").addEnt(getDeleteForm(q.get("id")))),divAddQ);
                 li.addEnt(lidiv);
+                
+                controller.Questions qu = new controller.Questions();
+                
+                List<Row> answers = qu.getAnswers(q.get("id"));
+                for(Row answer : answers) {
+                    AbsEnt li_answer = WebEnt.getEnt(WebEnt.Type.LI);
+                    li_answer.setValue(answer.get("value"));
+                    li.addEnt(li_answer);
+                }
+                
                 base.addEnt(li);
             }
             
@@ -145,8 +181,9 @@ public class Questions {
         AbsEnt se = fr.rightForm(inner, fo);*/
         AbsEnt buttonAddQ = WebEnt.getEnt(WebEnt.Type.BUTTON);
         buttonAddQ.setValue("Добавить ответ");
-        buttonAddQ.setJs("onclick=\"showAddForm("+primaryId+");\"");
+        buttonAddQ.setJs("onclick=\"showAddForm("+primaryId+");\" class=\"btn btn-primary\"");
 
         return buttonAddQ;
     }
+    
 }

@@ -94,9 +94,12 @@ public class index extends HttpServlet {
             out.println("$(\"#dlg-content\").css(\"display\",\"none\");");
             out.println("}");
             out.println("function showAddForm(num) {");
-            //out.print90ln("$(\"#divaddq\").addClass(\"divaddq\");");
             out.println("var name = \"#divaddq\"+num;");
             out.println("$(name).css(\"display\",\"block\");");
+            out.println("}");
+            out.println("function hideAddForm(num) {");
+            out.println("var name = \"#divaddq\"+num;");
+            out.println("$(name).css(\"display\",\"none\");");
             out.println("}");
             out.println("</script>");
             
